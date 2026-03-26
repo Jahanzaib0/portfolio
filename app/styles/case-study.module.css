@@ -1,27 +1,8 @@
 .techSection {
-  max-width: 720px;
+  max-width: 860px;
+  width: 100%;
 }
 
-.techGroup {
-  margin-bottom: var(--spaceXL);
-}
-
-.techGroupTitle {
-  font-size: var(--fontSizeBodyS);
-  font-weight: var(--fontWeightMedium);
-  color: var(--primary);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+.techSection :global(h2) {
   margin-bottom: var(--spaceM);
-}
-
-.techList {
-  margin: 0;
-  padding-left: 1.25rem;
-  color: var(--textBody);
-  line-height: 1.65;
-}
-
-.techList li {
-  margin-bottom: var(--spaceXS);
 }

@@ -1,5 +1,7 @@
 import { Footer } from '~/components/footer';
+import { TechStack } from '~/components/tech-stack';
 import {
+  ProjectBackground,
   ProjectContainer,
   ProjectHeader,
   ProjectSection,
@@ -8,6 +10,17 @@ import {
   ProjectSectionText,
 } from '~/layouts/project';
 import { Fragment } from 'react';
+import { FaCloud, FaCode, FaDatabase, FaShieldAlt, FaWpforms } from 'react-icons/fa';
+import {
+  SiCircleci,
+  SiJest,
+  SiNestjs,
+  SiNextdotjs,
+  SiPostgresql,
+  SiReact,
+  SiTailwindcss,
+  SiTypescript,
+} from 'react-icons/si';
 import { baseMeta } from '~/utils/meta';
 import caseStyles from '~/styles/case-study.module.css';
 
@@ -15,7 +28,39 @@ const title = 'Guestly';
 const description =
   'WhatsApp-native guest communication and AI-assisted operations for hotels—dashboard, campaigns, and PMS-aware workflows.';
 const url = 'https://guestly.ai/';
-const roles = ['Senior Software Engineer', 'Frontend & platform integration'];
+const roles = ['Senior Software Engineer', 'Full Stack Developer'];
+
+const techGroups = [
+  {
+    title: 'Frontend',
+    items: [
+      { label: 'Next.js', icon: SiNextdotjs },
+      { label: 'TypeScript', icon: SiTypescript },
+      { label: 'Jest', icon: SiJest },
+      { label: 'Tailwind CSS', icon: SiTailwindcss },
+      { label: 'React Query', icon: SiReact },
+      { label: 'Zustand', icon: FaCode },
+      { label: 'React Hook Form', icon: FaWpforms },
+      { label: 'Zod', icon: FaShieldAlt },
+    ],
+  },
+  {
+    title: 'Backend & data',
+    items: [
+      { label: 'NestJS', icon: SiNestjs },
+      { label: 'PostgreSQL', icon: SiPostgresql },
+      { label: 'AWS Lambda', icon: FaCloud },
+    ],
+  },
+  {
+    title: 'Delivery',
+    items: [
+      { label: 'CircleCI', icon: SiCircleci },
+      { label: 'Cloud Deployments', icon: FaCloud },
+      { label: 'Reliable APIs', icon: FaDatabase },
+    ],
+  },
+];
 
 export const meta = () => {
   return baseMeta({
@@ -30,6 +75,7 @@ export const Guestly = () => {
   return (
     <Fragment>
       <ProjectContainer>
+        <ProjectBackground src="/projects/detail-page/guestly.png" opacity={0.82} />
         <ProjectHeader title={title} description={description} url={url} roles={roles} />
         <ProjectSection padding="top">
           <ProjectSectionContent>
@@ -44,11 +90,7 @@ export const Guestly = () => {
               The product needed a single place to run conversations end-to-end: fast UI for
               operators, reliable automation, and integrations that respect existing PMS workflows.
             </ProjectSectionText>
-          </ProjectSectionContent>
-        </ProjectSection>
-        <ProjectSection>
-          <ProjectSectionContent>
-            <ProjectSectionHeading>Solution</ProjectSectionHeading>
+                <ProjectSectionHeading>Solution</ProjectSectionHeading>
             <ProjectSectionText>
               Guestly centers WhatsApp as the guest-facing channel and pairs it with an intelligent
               assistant for common flows—while still giving teams a real inbox when human judgment
@@ -60,37 +102,11 @@ export const Guestly = () => {
               property data) with PostgreSQL as the source of truth and deployment pipelines that
               keep releases boring on purpose.
             </ProjectSectionText>
+             <ProjectSectionHeading>Technology Toolkit</ProjectSectionHeading>
+            <TechStack groups={techGroups} />
           </ProjectSectionContent>
         </ProjectSection>
-        <ProjectSection>
-          <ProjectSectionContent className={caseStyles.techSection}>
-            <ProjectSectionHeading>Technology</ProjectSectionHeading>
-            <div className={caseStyles.techGroup}>
-              <div className={caseStyles.techGroupTitle}>Frontend</div>
-              <ul className={caseStyles.techList}>
-                <li>Next.js, TypeScript, Jest</li>
-                <li>shadcn/ui, Tailwind CSS</li>
-                <li>TanStack Query (React Query), Zustand</li>
-                <li>React Hook Form, Zod</li>
-                <li>Lucide icons</li>
-              </ul>
-            </div>
-            <div className={caseStyles.techGroup}>
-              <div className={caseStyles.techGroupTitle}>Backend &amp; data</div>
-              <ul className={caseStyles.techList}>
-                <li>NestJS</li>
-                <li>PostgreSQL</li>
-                <li>Deployed on AWS Lambda</li>
-              </ul>
-            </div>
-            <div className={caseStyles.techGroup}>
-              <div className={caseStyles.techGroupTitle}>Delivery</div>
-              <ul className={caseStyles.techList}>
-                <li>CircleCI pipelines</li>
-              </ul>
-            </div>
-          </ProjectSectionContent>
-        </ProjectSection>
+       
       </ProjectContainer>
       <Footer />
     </Fragment>

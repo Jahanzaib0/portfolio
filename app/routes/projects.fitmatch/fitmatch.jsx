@@ -1,5 +1,7 @@
 import { Footer } from '~/components/footer';
+import { TechStack } from '~/components/tech-stack';
 import {
+  ProjectBackground,
   ProjectContainer,
   ProjectHeader,
   ProjectSection,
@@ -8,6 +10,8 @@ import {
   ProjectSectionText,
 } from '~/layouts/project';
 import { Fragment } from 'react';
+import { FaCloud, FaCode, FaDatabase, FaWpforms } from 'react-icons/fa';
+import { SiAxios, SiCircleci, SiNestjs, SiReact, SiTailwindcss } from 'react-icons/si';
 import { baseMeta } from '~/utils/meta';
 import caseStyles from '~/styles/case-study.module.css';
 
@@ -15,7 +19,32 @@ const title = 'Fit:match';
 const description =
   'Embeddable Body AI experiences—fast scans, structured insights, and retail or wellness journeys delivered through an isolated widget surface.';
 const url = 'https://www.fitmatch.ai/';
-const roles = ['Senior Software Engineer', 'Widget & embed platform'];
+const roles = ['Senior Software Engineer', 'Full Stack Developer'];
+
+const techGroups = [
+  {
+    title: 'Widget & client',
+    items: [
+      { label: 'React', icon: SiReact },
+      { label: 'Shadow DOM', icon: FaCode },
+      { label: 'Tailwind CSS', icon: SiTailwindcss },
+      { label: 'Axios', icon: SiAxios },
+      { label: 'React Query', icon: SiReact },
+      { label: 'React Hook Form', icon: FaWpforms },
+      { label: 'Zod', icon: FaCode },
+    ],
+  },
+  {
+    title: 'Backend & delivery',
+    items: [
+      { label: 'NestJS', icon: SiNestjs },
+      { label: 'DynamoDB', icon: FaDatabase },
+      { label: 'AWS Lambda', icon: FaCloud },
+      { label: 'CircleCI', icon: SiCircleci },
+      { label: 'Cloud workflows', icon: FaCloud },
+    ],
+  },
+];
 
 export const meta = () => {
   return baseMeta({
@@ -30,6 +59,7 @@ export const Fitmatch = () => {
   return (
     <Fragment>
       <ProjectContainer>
+        <ProjectBackground src="/projects/detail-page/fitmatch.png" opacity={0.82} />
         <ProjectHeader title={title} description={description} url={url} roles={roles} />
         <ProjectSection padding="top">
           <ProjectSectionContent>
@@ -43,11 +73,7 @@ export const Fitmatch = () => {
               The widget work focused on a portable surface that could ship inside third-party
               retail and wellness experiences while keeping API access and UI state predictable.
             </ProjectSectionText>
-          </ProjectSectionContent>
-        </ProjectSection>
-        <ProjectSection>
-          <ProjectSectionContent>
-            <ProjectSectionHeading>Solution</ProjectSectionHeading>
+             <ProjectSectionHeading>Solution</ProjectSectionHeading>
             <ProjectSectionText>
               The client bundle uses Shadow DOM to isolate styles, React with Tailwind for the
               interactive flow, and Axios plus TanStack Query for resilient data fetching. Forms use
@@ -57,33 +83,11 @@ export const Fitmatch = () => {
               Backend pieces lean on NestJS with DynamoDB and AWS Lambda for scalable, pay-per-use
               execution, with CircleCI handling repeatable releases.
             </ProjectSectionText>
+                <ProjectSectionHeading>Technology Toolkit</ProjectSectionHeading>
+            <TechStack groups={techGroups} />
           </ProjectSectionContent>
         </ProjectSection>
-        <ProjectSection>
-          <ProjectSectionContent className={caseStyles.techSection}>
-            <ProjectSectionHeading>Technology</ProjectSectionHeading>
-            <div className={caseStyles.techGroup}>
-              <div className={caseStyles.techGroupTitle}>Widget &amp; client</div>
-              <ul className={caseStyles.techList}>
-                <li>React</li>
-                <li>Shadow DOM</li>
-                <li>Tailwind CSS</li>
-                <li>Axios</li>
-                <li>TanStack Query (React Query)</li>
-                <li>React Hook Form, Zod</li>
-              </ul>
-            </div>
-            <div className={caseStyles.techGroup}>
-              <div className={caseStyles.techGroupTitle}>Backend &amp; delivery</div>
-              <ul className={caseStyles.techList}>
-                <li>NestJS</li>
-                <li>Amazon DynamoDB</li>
-                <li>AWS Lambda</li>
-                <li>CircleCI</li>
-              </ul>
-            </div>
-          </ProjectSectionContent>
-        </ProjectSection>
+       
       </ProjectContainer>
       <Footer />
     </Fragment>
