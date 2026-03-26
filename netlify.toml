@@ -2,6 +2,12 @@
 command = "npm run build"
 publish = "build/client"
 
+[build.environment]
+# Netlify sometimes installs with NODE_ENV=production which omits devDependencies.
+# Remix CLI lives in @remix-run/dev, so we must include dev deps during build.
+NPM_FLAGS = "--include=dev"
+NODE_ENV = "development"
+
 [dev]
 command = "npm run dev"
 framework = "vite"
