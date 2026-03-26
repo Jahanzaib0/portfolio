@@ -1,6 +1,7 @@
 import { Button } from '~/components/button';
 import { Divider } from '~/components/divider';
 import { Heading } from '~/components/heading';
+import { Image } from '~/components/image';
 import { deviceModels } from '~/components/model/device-models';
 import { Section } from '~/components/section';
 import { Text } from '~/components/text';
@@ -29,6 +30,7 @@ export function ProjectSummary({
   buttonText,
   buttonLink,
   alternate,
+  first,
   ...rest
 }) {
   const [focused, setFocused] = useState(false);
@@ -170,6 +172,42 @@ export function ProjectSummary({
             </div>
           </>
         )}
+        {model.type === 'image' && (
+          <div className={styles.model} data-device="media">
+            {isHydrated && visible && (
+              <Image
+                reveal
+                alt={model.alt || ''}
+                src={model.src}
+                srcSet={model.srcSet}
+                placeholder={model.placeholder}
+                sizes={model.sizes || laptopSizes}
+                width={model.width}
+                height={model.height}
+              />
+            )}
+          </div>
+        )}
+        {model.type === 'video' && (
+          <div className={styles.model} data-device="media">
+            {!modelLoaded && visible && (
+              <Loader center className={styles.loader} data-visible={visible} />
+            )}
+            {isHydrated && visible && (
+              <video
+                className={styles.video}
+                src={model.videoSrc}
+                poster={model.poster}
+                playsInline
+                muted
+                loop
+                autoPlay
+                preload="metadata"
+                onLoadedData={handleModelLoad}
+              />
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -178,7 +216,7 @@ export function ProjectSummary({
     <Section
       className={styles.summary}
       data-alternate={alternate}
-      data-first={index === 1}
+      data-first={first}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
       as="section"

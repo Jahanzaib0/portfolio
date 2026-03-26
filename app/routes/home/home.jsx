@@ -1,25 +1,14 @@
-import gamestackTexture2Large from '~/assets/gamestack-list-large.jpg';
-import gamestackTexture2Placeholder from '~/assets/gamestack-list-placeholder.jpg';
-import gamestackTexture2 from '~/assets/gamestack-list.jpg';
-import gamestackTextureLarge from '~/assets/gamestack-login-large.jpg';
-import gamestackTexturePlaceholder from '~/assets/gamestack-login-placeholder.jpg';
-import gamestackTexture from '~/assets/gamestack-login.jpg';
-import sliceTextureLarge from '~/assets/slice-app-large.jpg';
-import sliceTexturePlaceholder from '~/assets/slice-app-placeholder.jpg';
-import sliceTexture from '~/assets/slice-app.jpg';
-import sprTextureLarge from '~/assets/spr-lesson-builder-dark-large.jpg';
-import sprTexturePlaceholder from '~/assets/spr-lesson-builder-dark-placeholder.jpg';
-import sprTexture from '~/assets/spr-lesson-builder-dark.jpg';
 import { Footer } from '~/components/footer';
-import { baseMeta } from '~/utils/meta';
+import { projects } from '~/projects-data';
 import { Intro } from './intro';
 import { Profile } from './profile';
 import { ProjectSummary } from './project-summary';
+import { ProjectsSectionIntro } from './projects-section-intro';
 import { useEffect, useRef, useState } from 'react';
 import config from '~/config.json';
+import { baseMeta } from '~/utils/meta';
 import styles from './home.module.css';
 
-// Prefetch draco decoader wasm
 export const links = () => {
   return [
     {
@@ -41,23 +30,60 @@ export const links = () => {
 
 export const meta = () => {
   return baseMeta({
-    title: 'Jahanzaib - Full Stack Developer',
-    description: `Portfolio of Jahanzaib — a Full Stack Developer specializing in web & mobile app development, with a focus on modern technologies, scalability, and performance.`,
+    title: `${config.name} — Senior Software Engineer`,
+    description: `Portfolio of ${config.name} — Senior Software Engineer with 4+ years building production web platforms, AI-enabled products, and scalable full-stack systems.`,
   });
 };
 
+const projectModels = [
+  {
+    type: 'image',
+    alt: 'Guestly dashboard and WhatsApp conversation UI',
+    src: '/projects/guestly-chat.png',
+    width: 800,
+    height: 350,
+  },
+  {
+    type: 'image',
+    alt: 'LYVECOM shoppable video commerce experience',
+    src: 'https://images.squarespace-cdn.com/content/v1/5f42ce624278dc3363ba9ec2/15d01078-84c8-4c24-92be-0f8eeafa8ba9/LYVECOM_Live+Shopping_2.png',
+    width: 1200,
+    height: 800,
+  },
+  {
+    type: 'image',
+    alt: 'Fit:match Body AI platform',
+    src: '/projects/fitmatch-hero.png',
+    width: 1200,
+    height: 800,
+  },
+  {
+    type: 'video',
+    videoSrc: '/projects/connectdevs-bg.mp4',
+  },
+];
 
 export const Home = () => {
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
   const intro = useRef();
+  const projectsIntro = useRef();
   const projectOne = useRef();
   const projectTwo = useRef();
   const projectThree = useRef();
+  const projectFour = useRef();
   const details = useRef();
 
   useEffect(() => {
-    const sections = [intro, projectOne, projectTwo, projectThree, details];
+    const sections = [
+      intro,
+      projectsIntro,
+      projectOne,
+      projectTwo,
+      projectThree,
+      projectFour,
+      details,
+    ];
 
     const sectionObserver = new IntersectionObserver(
       (entries, observer) => {
@@ -65,8 +91,10 @@ export const Home = () => {
           if (entry.isIntersecting) {
             const section = entry.target;
             observer.unobserve(section);
-            if (visibleSections.includes(section)) return;
-            setVisibleSections(prevSections => [...prevSections, section]);
+            setVisibleSections(prevSections => {
+              if (prevSections.includes(section)) return prevSections;
+              return [...prevSections, section];
+            });
           }
         });
       },
@@ -81,16 +109,16 @@ export const Home = () => {
     );
 
     sections.forEach(section => {
-      sectionObserver.observe(section.current);
+      if (section.current) sectionObserver.observe(section.current);
     });
 
-    indicatorObserver.observe(intro.current);
+    if (intro.current) indicatorObserver.observe(intro.current);
 
     return () => {
       sectionObserver.disconnect();
       indicatorObserver.disconnect();
     };
-  }, [visibleSections]);
+  }, []);
 
   return (
     <div className={styles.home}>
@@ -99,71 +127,27 @@ export const Home = () => {
         sectionRef={intro}
         scrollIndicatorHidden={scrollIndicatorHidden}
       />
-      <ProjectSummary
-        id="project-1"
-        sectionRef={projectOne}
-        visible={visibleSections.includes(projectOne.current)}
-        index={1}
-        title="Designing the future of education"
-        description="Designing a platform to help educators build better online courseware"
-        buttonText="View project"
-        buttonLink="/projects/smart-sparrow"
-        model={{
-          type: 'laptop',
-          alt: 'Smart Sparrow lesson builder',
-          textures: [
-            {
-              srcSet: `${sprTexture} 1280w, ${sprTextureLarge} 2560w`,
-              placeholder: sprTexturePlaceholder,
-            },
-          ],
-        }}
+      <ProjectsSectionIntro
+        id="projects"
+        sectionRef={projectsIntro}
+        visible={visibleSections.includes(projectsIntro.current)}
       />
-      <ProjectSummary
-        id="project-2"
-        alternate
-        sectionRef={projectTwo}
-        visible={visibleSections.includes(projectTwo.current)}
-        index={2}
-        title="Video game progress tracking"
-        description="Design and development for a video game tracking app built in React Native"
-        buttonText="View website"
-        buttonLink="https://gamestack.hamishw.com"
-        model={{
-          type: 'phone',
-          alt: 'App login screen',
-          textures: [
-            {
-              srcSet: `${gamestackTexture} 375w, ${gamestackTextureLarge} 750w`,
-              placeholder: gamestackTexturePlaceholder,
-            },
-            {
-              srcSet: `${gamestackTexture2} 375w, ${gamestackTexture2Large} 750w`,
-              placeholder: gamestackTexture2Placeholder,
-            },
-          ],
-        }}
-      />
-      <ProjectSummary
-        id="project-3"
-        sectionRef={projectThree}
-        visible={visibleSections.includes(projectThree.current)}
-        index={3}
-        title="Biomedical image collaboration"
-        description="Increasing the amount of collaboration in Slice, an app for biomedical imaging"
-        buttonText="View project"
-        buttonLink="/projects/slice"
-        model={{
-          type: 'laptop',
-          alt: 'Annotating a biomedical image in the Slice app',
-          textures: [
-            {
-              srcSet: `${sliceTexture} 800w, ${sliceTextureLarge} 1920w`,
-              placeholder: sliceTexturePlaceholder,
-            },
-          ],
-        }}
-      />
+      {projects.map((project, i) => (
+        <ProjectSummary
+          key={project.slug}
+          id={`project-${i + 1}`}
+          sectionRef={[projectOne, projectTwo, projectThree, projectFour][i]}
+          visible={visibleSections.includes([projectOne, projectTwo, projectThree, projectFour][i].current)}
+          index={i + 1}
+          title={project.name}
+          description={project.teaser}
+          buttonText="View project"
+          buttonLink={`/projects/${project.slug}`}
+          alternate={i % 2 === 1}
+          first={false}
+          model={projectModels[i]}
+        />
+      ))}
       <Profile
         sectionRef={details}
         visible={visibleSections.includes(details.current)}
